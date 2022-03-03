@@ -1,25 +1,22 @@
-import { createSiteMenuTemplate } from './view/site-menu-view.js';
-import { renderTemplate, RenderPosition } from '../render.js';
-import { createSiteFilterTemplate } from './view/site-filter-view.js';
-import { createSiteSortTemplate } from './view/site-sort-view.js';
-import { createSiteListTemplate } from './view/site-list-view.js';
-import { createSiteLoadingTemplate } from './view/site-loading-view.js';
+import {renderTemplate, RenderPosition} from './render.js';
+import { createSiteNavigation } from './view/site-navigation.js';
+import { createSiteList } from './view/site-list.js';
+import { createSiteSort } from './view/site-sort.js';
+import { createSiteEditForm } from './view/site-edit-form.js';
+import { createSiteFilters } from './view/site-filters.js';
 
-const siteMainElement = document.querySelector('.trip-main');
-const siteHeaderElement = siteMainElement.querySelector('.trip-main__trip-controls');
+const siteNavigation = document.querySelector('.trip-controls__navigation');
+const siteEventsElement = document.querySelector('.trip-events');
+const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
+const siteFilters = document.querySelector('.trip-controls__filters');
 
-renderTemplate(siteHeaderElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
+const count = 3;
 
-const siteFilterElement = siteMainElement.querySelector('.trip-controls__filters');
+renderTemplate(siteNavigation, createSiteNavigation(), RenderPosition.BEFOREEND);
+for (let i = 0; i < count; i++) {
+  renderTemplate(siteEventsListElement, createSiteList(), RenderPosition.BEFOREEND);
+}
 
-renderTemplate(siteFilterElement, createSiteFilterTemplate(), RenderPosition.BEFOREEND);
-
-const siteSortElement = document.querySelector('.page-main');
-const siteHeaderSortElement = siteSortElement.querySelector('.trip-events');
-
-renderTemplate(siteHeaderSortElement, createSiteSortTemplate(), RenderPosition.BEFOREEND);
-
-renderTemplate(siteHeaderSortElement, createSiteListTemplate(), RenderPosition.BEFOREEND);
-
-renderTemplate(siteHeaderSortElement, createSiteLoadingTemplate(), RenderPosition.BEFOREEND);
-
+renderTemplate(siteEventsElement, createSiteSort(), RenderPosition.AFTERBEGIN);
+renderTemplate(siteEventsListElement, createSiteEditForm(), RenderPosition.AFTERBEGIN);
+renderTemplate(siteFilters, createSiteFilters(), RenderPosition.BEFOREEND);
