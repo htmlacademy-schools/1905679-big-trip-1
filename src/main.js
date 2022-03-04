@@ -4,9 +4,11 @@ import { createSiteList } from './view/site-list.js';
 import { createSiteSort } from './view/site-sort.js';
 import { createSiteEditForm } from './view/site-edit-form.js';
 import { createSiteFilters } from './view/site-filters.js';
+import { createSiteEventsList } from './view/site-event-list.js';
 
 const siteNavigation = document.querySelector('.trip-controls__navigation');
 const siteEventsElement = document.querySelector('.trip-events');
+renderTemplate(siteEventsElement, createSiteEventsList(), RenderPosition.BEFOREEND);
 const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
 const siteFilters = document.querySelector('.trip-controls__filters');
 
