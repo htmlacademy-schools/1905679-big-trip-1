@@ -280,6 +280,30 @@ const createSiteList = () => `<div class="event">
 
 /***/ }),
 
+/***/ "./src/view/site-menu.js":
+/*!*******************************!*\
+  !*** ./src/view/site-menu.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createSiteMenu": () => (/* binding */ createSiteMenu)
+/* harmony export */ });
+const createSiteMenu = () => `<section class="trip-main__trip-info  trip-info">
+    <div class="trip-info__main">
+      <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
+
+      <p class="trip-info__dates">Mar 18&nbsp;&mdash;&nbsp;20</p>
+    </div>
+
+    <p class="trip-info__cost">
+      Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
+    </p>
+  </section>`;
+
+/***/ }),
+
 /***/ "./src/view/site-navigation.js":
 /*!*************************************!*\
   !*** ./src/view/site-navigation.js ***!
@@ -402,6 +426,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_site_edit_form_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./view/site-edit-form.js */ "./src/view/site-edit-form.js");
 /* harmony import */ var _view_site_filters_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./view/site-filters.js */ "./src/view/site-filters.js");
 /* harmony import */ var _view_site_event_list_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./view/site-event-list.js */ "./src/view/site-event-list.js");
+/* harmony import */ var _view_site_menu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./view/site-menu.js */ "./src/view/site-menu.js");
+
 
 
 
@@ -414,6 +440,7 @@ const siteEventsElement = document.querySelector('.trip-events');
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsElement, (0,_view_site_event_list_js__WEBPACK_IMPORTED_MODULE_6__.createSiteEventsList)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
 const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
 const siteFilters = document.querySelector('.trip-controls__filters');
+const siteMenu = document.querySelector('.trip-main');
 const count = 3;
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteNavigation, (0,_view_site_navigation_js__WEBPACK_IMPORTED_MODULE_1__.createSiteNavigation)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
 
@@ -424,6 +451,7 @@ for (let i = 0; i < count; i++) {
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsElement, (0,_view_site_sort_js__WEBPACK_IMPORTED_MODULE_3__.createSiteSort)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsListElement, (0,_view_site_edit_form_js__WEBPACK_IMPORTED_MODULE_4__.createSiteEditForm)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteFilters, (0,_view_site_filters_js__WEBPACK_IMPORTED_MODULE_5__.createSiteFilters)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteMenu, (0,_view_site_menu_js__WEBPACK_IMPORTED_MODULE_7__.createSiteMenu)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
 })();
 
 /******/ })()
