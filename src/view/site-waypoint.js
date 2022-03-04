@@ -1,4 +1,4 @@
-export const createSiteList = () => (
+export const createSiteWayPoint = () => (
   `<div class="event">
   <time class="event__date" datetime="2019-03-19">MAR 19</time>
   <div class="event__type">
