@@ -227,70 +227,17 @@ const createSiteFilters = () => `<form class="trip-filters" action="#" method="g
 
 /***/ }),
 
-/***/ "./src/view/site-list.js":
+/***/ "./src/view/site-info.js":
 /*!*******************************!*\
-  !*** ./src/view/site-list.js ***!
+  !*** ./src/view/site-info.js ***!
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createSiteList": () => (/* binding */ createSiteList)
+/* harmony export */   "createSiteInfo": () => (/* binding */ createSiteInfo)
 /* harmony export */ });
-const createSiteList = () => `<div class="event">
-  <time class="event__date" datetime="2019-03-19">MAR 19</time>
-  <div class="event__type">
-    <img class="event__type-icon" width="42" height="42" src="img/icons/sightseeing.png" alt="Event type icon">
-  </div>
-  <h3 class="event__title">Sightseeing Chamonix</h3>
-  <div class="event__schedule">
-    <p class="event__time">
-      <time class="event__start-time" datetime="2019-03-19T11:20">14:20</time>
-      &mdash;
-      <time class="event__end-time" datetime="2019-03-19T13:00">13:00</time>
-    </p>
-    <p class="event__duration">01H 20M</p>
-  </div>
-  <p class="event__price">
-    &euro;&nbsp;<span class="event__price-value">50</span>
-  </p>
-  <h4 class="visually-hidden">Offers:</h4>
-  <ul class="event__selected-offers">
-    <li class="event__offer">
-      <span class="event__offer-title">Book tickets</span>
-      &plus;&euro;&nbsp;
-      <span class="event__offer-price">40</span>
-    </li>
-    <li class="event__offer">
-      <span class="event__offer-title">Lunch in city</span>
-      &plus;&euro;&nbsp;
-      <span class="event__offer-price">30</span>
-    </li>
-  </ul>
-  <button class="event__favorite-btn" type="button">
-    <span class="visually-hidden">Add to favorite</span>
-    <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
-      <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
-    </svg>
-  </button>
-  <button class="event__rollup-btn" type="button">
-    <span class="visually-hidden">Open event</span>
-  </button>
-</div>`;
-
-/***/ }),
-
-/***/ "./src/view/site-menu.js":
-/*!*******************************!*\
-  !*** ./src/view/site-menu.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createSiteMenu": () => (/* binding */ createSiteMenu)
-/* harmony export */ });
-const createSiteMenu = () => `<section class="trip-main__trip-info  trip-info">
+const createSiteInfo = () => `<section class="trip-main__trip-info  trip-info">
     <div class="trip-info__main">
       <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
 
@@ -353,6 +300,59 @@ const createSiteSort = () => `<form class="trip-events__trip-sort  trip-sort" ac
                 <label class="trip-sort__btn" for="sort-offer">Offers</label>
               </div>
             </form>`;
+
+/***/ }),
+
+/***/ "./src/view/site-waypoint.js":
+/*!***********************************!*\
+  !*** ./src/view/site-waypoint.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createSiteWayPoint": () => (/* binding */ createSiteWayPoint)
+/* harmony export */ });
+const createSiteWayPoint = () => `<div class="event">
+  <time class="event__date" datetime="2019-03-19">MAR 19</time>
+  <div class="event__type">
+    <img class="event__type-icon" width="42" height="42" src="img/icons/sightseeing.png" alt="Event type icon">
+  </div>
+  <h3 class="event__title">Sightseeing Chamonix</h3>
+  <div class="event__schedule">
+    <p class="event__time">
+      <time class="event__start-time" datetime="2019-03-19T11:20">14:20</time>
+      &mdash;
+      <time class="event__end-time" datetime="2019-03-19T13:00">13:00</time>
+    </p>
+    <p class="event__duration">01H 20M</p>
+  </div>
+  <p class="event__price">
+    &euro;&nbsp;<span class="event__price-value">50</span>
+  </p>
+  <h4 class="visually-hidden">Offers:</h4>
+  <ul class="event__selected-offers">
+    <li class="event__offer">
+      <span class="event__offer-title">Book tickets</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">40</span>
+    </li>
+    <li class="event__offer">
+      <span class="event__offer-title">Lunch in city</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">30</span>
+    </li>
+  </ul>
+  <button class="event__favorite-btn" type="button">
+    <span class="visually-hidden">Add to favorite</span>
+    <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
+      <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
+    </svg>
+  </button>
+  <button class="event__rollup-btn" type="button">
+    <span class="visually-hidden">Open event</span>
+  </button>
+</div>`;
 
 /***/ })
 
@@ -421,12 +421,12 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./render.js */ "./src/render.js");
 /* harmony import */ var _view_site_navigation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./view/site-navigation.js */ "./src/view/site-navigation.js");
-/* harmony import */ var _view_site_list_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./view/site-list.js */ "./src/view/site-list.js");
+/* harmony import */ var _view_site_waypoint_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./view/site-waypoint.js */ "./src/view/site-waypoint.js");
 /* harmony import */ var _view_site_sort_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./view/site-sort.js */ "./src/view/site-sort.js");
 /* harmony import */ var _view_site_edit_form_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./view/site-edit-form.js */ "./src/view/site-edit-form.js");
 /* harmony import */ var _view_site_filters_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./view/site-filters.js */ "./src/view/site-filters.js");
 /* harmony import */ var _view_site_event_list_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./view/site-event-list.js */ "./src/view/site-event-list.js");
-/* harmony import */ var _view_site_menu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./view/site-menu.js */ "./src/view/site-menu.js");
+/* harmony import */ var _view_site_info_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./view/site-info.js */ "./src/view/site-info.js");
 
 
 
@@ -445,13 +445,13 @@ const count = 3;
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteNavigation, (0,_view_site_navigation_js__WEBPACK_IMPORTED_MODULE_1__.createSiteNavigation)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
 
 for (let i = 0; i < count; i++) {
-  (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsListElement, (0,_view_site_list_js__WEBPACK_IMPORTED_MODULE_2__.createSiteList)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
+  (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsListElement, (0,_view_site_waypoint_js__WEBPACK_IMPORTED_MODULE_2__.createSiteWayPoint)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
 }
 
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsElement, (0,_view_site_sort_js__WEBPACK_IMPORTED_MODULE_3__.createSiteSort)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsListElement, (0,_view_site_edit_form_js__WEBPACK_IMPORTED_MODULE_4__.createSiteEditForm)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
 (0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteFilters, (0,_view_site_filters_js__WEBPACK_IMPORTED_MODULE_5__.createSiteFilters)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
-(0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteMenu, (0,_view_site_menu_js__WEBPACK_IMPORTED_MODULE_7__.createSiteMenu)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
+(0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteMenu, (0,_view_site_info_js__WEBPACK_IMPORTED_MODULE_7__.createSiteInfo)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.AFTERBEGIN);
 })();
 
 /******/ })()
