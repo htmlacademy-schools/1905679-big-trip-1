@@ -179,6 +179,21 @@ const createSiteEditForm = () => `<li class="trip-events__item">
 
 /***/ }),
 
+/***/ "./src/view/site-event-list.js":
+/*!*************************************!*\
+  !*** ./src/view/site-event-list.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createSiteEventsList": () => (/* binding */ createSiteEventsList)
+/* harmony export */ });
+const createSiteEventsList = () => `<ul class="trip-events__list">
+      </ul>`;
+
+/***/ }),
+
 /***/ "./src/view/site-filters.js":
 /*!**********************************!*\
   !*** ./src/view/site-filters.js ***!
@@ -386,6 +401,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_site_sort_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./view/site-sort.js */ "./src/view/site-sort.js");
 /* harmony import */ var _view_site_edit_form_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./view/site-edit-form.js */ "./src/view/site-edit-form.js");
 /* harmony import */ var _view_site_filters_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./view/site-filters.js */ "./src/view/site-filters.js");
+/* harmony import */ var _view_site_event_list_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./view/site-event-list.js */ "./src/view/site-event-list.js");
+
 
 
 
@@ -394,6 +411,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const siteNavigation = document.querySelector('.trip-controls__navigation');
 const siteEventsElement = document.querySelector('.trip-events');
+(0,_render_js__WEBPACK_IMPORTED_MODULE_0__.renderTemplate)(siteEventsElement, (0,_view_site_event_list_js__WEBPACK_IMPORTED_MODULE_6__.createSiteEventsList)(), _render_js__WEBPACK_IMPORTED_MODULE_0__.RenderPosition.BEFOREEND);
 const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
 const siteFilters = document.querySelector('.trip-controls__filters');
 const count = 3;
