@@ -1,4 +1,6 @@
-export const createSiteEditForm = (wayPoint) => {
+import { createElement } from '../render';
+
+const createSiteEditForm = (wayPoint) => {
   const {description, picture} = wayPoint;
   return `<li class="trip-events__item">
               <form class="event event--edit" action="#" method="post">
@@ -141,3 +143,28 @@ export const createSiteEditForm = (wayPoint) => {
               </form>
             </li>`;
 };
+
+export default class SiteEditForm {
+  #element = null;
+  #waypoint = null;
+
+  constructor(waypoint) {
+    this.#waypoint = waypoint;
+  }
+
+  get element(){
+    if (!this.#element){
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template(){
+    return createSiteEditForm(this.#waypoint);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

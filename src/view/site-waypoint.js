@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import {createElement} from '../render';
 
-export const createSiteWayPoint = (wayPoint) => {
+const createSiteWayPoint = (wayPoint) => {
   const {waypointType, city, price, offers, isFavorite, dueDate} = wayPoint;
   const offerName = offers.offerName;
   const offerPrice = offers.price;
@@ -45,3 +46,28 @@ export const createSiteWayPoint = (wayPoint) => {
   </button>
 </div>`;
 };
+
+export default class SiteWayPoint {
+  #element = null;
+  #waypoint = null;
+
+  constructor(waypoint) {
+    this.#waypoint = waypoint;
+  }
+
+  get element() {
+    if (!this.#element){
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createSiteWayPoint(this.#waypoint);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
