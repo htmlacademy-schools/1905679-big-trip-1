@@ -7,6 +7,10 @@ import SiteFilters from './view/site-filters.js';
 import SiteEventsList from './view/site-event-list.js';
 import SiteInfo from './view/site-info.js';
 import { generateWaypoint } from './mock/waypoint.js';
+import SiteEmptyList from './view/site-empty-list.js';
+
+const count = 0;
+const wayPoint = Array.from({length: count}, generateWaypoint);
 
 const siteMenu = document.querySelector('.trip-main');
 const siteNavigation = siteMenu.querySelector('.trip-controls__navigation');
@@ -32,6 +36,10 @@ const renderWaypoint = (eventListElement, waypoint) => {
     }
   };
 
+  waypointEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    replaceEditToWaypoint();
+  });
+
   waypointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
     replaceWaypointToEdit();
     document.addEventListener('keydown', onEscKeyDown);
@@ -46,20 +54,23 @@ const renderWaypoint = (eventListElement, waypoint) => {
   render(eventListElement, waypointComponent.element, RenderPosition.BEFOREEND);
 };
 
-const eventListComponent = new SiteEventsList();
-render(siteEventsElement, eventListComponent.element, RenderPosition.BEFOREEND);
+if (wayPoint.length === 0) {
+  render(siteNavigation, new SiteNavigation().element,RenderPosition.BEFOREEND);
+  render(siteFilters, new SiteFilters().element, RenderPosition.BEFOREEND);
+  render(siteEventsElement, new SiteEmptyList().element, RenderPosition.BEFOREEND);
+} else {
+  const eventListComponent = new SiteEventsList();
+  render(siteEventsElement, eventListComponent.element, RenderPosition.BEFOREEND);
 
-const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
+  const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
 
-const count = 3;
-const wayPoint = Array.from({length: count}, generateWaypoint);
-
-render(siteMenu, new SiteInfo(wayPoint).element, RenderPosition.AFTERBEGIN);
-render(siteNavigation, new SiteNavigation().element,RenderPosition.BEFOREEND);
-render(siteFilters, new SiteFilters().element, RenderPosition.BEFOREEND);
-render(siteEventsListElement, new SiteSort().element, RenderPosition.AFTERBEGIN);
+  render(siteMenu, new SiteInfo(wayPoint).element, RenderPosition.AFTERBEGIN);
+  render(siteNavigation, new SiteNavigation().element,RenderPosition.BEFOREEND);
+  render(siteFilters, new SiteFilters().element, RenderPosition.BEFOREEND);
+  render(siteEventsListElement, new SiteSort().element, RenderPosition.AFTERBEGIN);
 
 
-for (let i = 0; i < count; i++) {
-  renderWaypoint(eventListComponent.element, wayPoint[i]);
+  for (let i = 0; i < count; i++) {
+    renderWaypoint(eventListComponent.element, wayPoint[i]);
+  }
 }
