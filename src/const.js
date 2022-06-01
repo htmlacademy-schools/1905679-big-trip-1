@@ -1,4 +1,4 @@
-import { getRandomInteger } from './utils';
+import { getRandomInteger } from './utils/utils';
 
 export const CITIES = ['Moscow', 'Ekaterinburg', 'Petersburg', 'Dubai', 'Madrid', 'London'];
 export const WAYPOINTTYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];

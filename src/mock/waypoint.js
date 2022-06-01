@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { CITIES } from '../const.js';
 import { WAYPOINTTYPES } from '../const.js';
-import { getRandomInteger } from '../utils.js';
+import { getRandomInteger } from '../utils/utils.js';
 import { OFFERS } from '../const.js';
 import { TEXT } from '../const.js';
 

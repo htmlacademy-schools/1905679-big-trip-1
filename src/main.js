@@ -1,4 +1,4 @@
-import {render, RenderPosition} from './render';
+import {render, RenderPosition, replace} from './utils/render';
 import SiteNavigation from './view/site-navigation.js';
 import SiteWayPoint from './view/site-waypoint.js';
 import SiteSort from './view/site-sort.js';
@@ -9,7 +9,7 @@ import SiteInfo from './view/site-info.js';
 import { generateWaypoint } from './mock/waypoint.js';
 import SiteEmptyList from './view/site-empty-list.js';
 
-const count = 0;
+const count = 5;
 const wayPoint = Array.from({length: count}, generateWaypoint);
 
 const siteMenu = document.querySelector('.trip-main');
@@ -22,11 +22,11 @@ const renderWaypoint = (eventListElement, waypoint) => {
   const waypointEditComponent = new SiteEditForm(waypoint);
 
   const replaceWaypointToEdit = () => {
-    eventListElement.replaceChild(waypointEditComponent.element, waypointComponent.element);
+    replace(waypointEditComponent, waypointComponent);
   };
 
   const replaceEditToWaypoint = () => {
-    eventListElement.replaceChild(waypointComponent.element, waypointEditComponent.element);
+    replace(waypointComponent, waypointEditComponent);
   };
   const onEscKeyDown = (event) => {
     if (event.key === 'Escape') {
@@ -36,41 +36,40 @@ const renderWaypoint = (eventListElement, waypoint) => {
     }
   };
 
-  waypointEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+  waypointEditComponent.setRollupClickHandler(() => {
     replaceEditToWaypoint();
   });
 
-  waypointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+  waypointComponent.setEditClickHandler(() => {
     replaceWaypointToEdit();
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  waypointEditComponent.element.querySelector('form').addEventListener('submit', (event) => {
-    event.preventDefault();
+  waypointEditComponent.setFormSubmit(() => {
     replaceEditToWaypoint();
     document.removeEventListener('keydown', onEscKeyDown);
   });
 
-  render(eventListElement, waypointComponent.element, RenderPosition.BEFOREEND);
+  render(eventListElement, waypointComponent, RenderPosition.BEFOREEND);
 };
 
 if (wayPoint.length === 0) {
-  render(siteNavigation, new SiteNavigation().element,RenderPosition.BEFOREEND);
-  render(siteFilters, new SiteFilters().element, RenderPosition.BEFOREEND);
-  render(siteEventsElement, new SiteEmptyList().element, RenderPosition.BEFOREEND);
+  render(siteNavigation, new SiteNavigation(),RenderPosition.BEFOREEND);
+  render(siteFilters, new SiteFilters(), RenderPosition.BEFOREEND);
+  render(siteEventsElement, new SiteEmptyList(), RenderPosition.BEFOREEND);
 } else {
   const eventListComponent = new SiteEventsList();
-  render(siteEventsElement, eventListComponent.element, RenderPosition.BEFOREEND);
+  render(siteEventsElement, eventListComponent, RenderPosition.BEFOREEND);
 
   const siteEventsListElement = siteEventsElement.querySelector('.trip-events__list');
 
-  render(siteMenu, new SiteInfo(wayPoint).element, RenderPosition.AFTERBEGIN);
-  render(siteNavigation, new SiteNavigation().element,RenderPosition.BEFOREEND);
-  render(siteFilters, new SiteFilters().element, RenderPosition.BEFOREEND);
-  render(siteEventsListElement, new SiteSort().element, RenderPosition.AFTERBEGIN);
+  render(siteMenu, new SiteInfo(wayPoint), RenderPosition.AFTERBEGIN);
+  render(siteNavigation, new SiteNavigation(),RenderPosition.BEFOREEND);
+  render(siteFilters, new SiteFilters(), RenderPosition.BEFOREEND);
+  render(siteEventsListElement, new SiteSort(), RenderPosition.AFTERBEGIN);
 
 
   for (let i = 0; i < count; i++) {
-    renderWaypoint(eventListComponent.element, wayPoint[i]);
+    renderWaypoint(eventListComponent, wayPoint[i]);
   }
 }
