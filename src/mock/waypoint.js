@@ -4,6 +4,7 @@ import { WAYPOINTTYPES } from '../const.js';
 import { getRandomInteger } from '../utils/utils.js';
 import { OFFERS } from '../const.js';
 import { TEXT } from '../const.js';
+import {nanoid} from 'nanoid';
 
 const generateDescription = () => {
   const randomIndex = getRandomInteger(0, TEXT.length - 1);
@@ -58,6 +59,7 @@ export const generateWaypoint = () => {
   const dueDate = generateDates();
 
   return {
+    id: nanoid(),
     dueDate,
     waypointType: getRandomWaypointType(),
     city: getRandomCity(),
