@@ -158,7 +158,7 @@ export default class SiteEditForm extends AbstractView {
     return createSiteEditForm(this.#waypoint);
   }
 
-  setFormSubmit = (callback) => {
+  setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   }
@@ -166,6 +166,7 @@ export default class SiteEditForm extends AbstractView {
   #formSubmitHandler = (event) => {
     event.preventDefault();
     this._callback.formSubmit();
+    this._callback.formSubmit(this.#waypoint);
   }
 
   setRollupClickHandler = (callback) => {
