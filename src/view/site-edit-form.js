@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import AbstractView from './abstract-view';
 
 const createSiteEditForm = (wayPoint) => {
   const {description, picture} = wayPoint;
@@ -145,27 +145,36 @@ const createSiteEditForm = (wayPoint) => {
             </li>`;
 };
 
-export default class SiteEditForm {
-  #element = null;
+export default class SiteEditForm extends AbstractView {
+
   #waypoint = null;
 
   constructor(waypoint) {
+    super();
     this.#waypoint = waypoint;
-  }
-
-  get element(){
-    if (!this.#element){
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template(){
     return createSiteEditForm(this.#waypoint);
   }
 
-  removeElement() {
-    this.#element = null;
+  setFormSubmit = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+  }
+
+  #formSubmitHandler = (event) => {
+    event.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setRollupClickHandler = (callback) => {
+    this._callback.rollupClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupClickHandler);
+  }
+
+  #rollupClickHandler = (event) => {
+    event.preventDefault();
+    this._callback.rollupClick();
   }
 }

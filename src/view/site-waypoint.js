@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {createElement} from '../render';
+import AbstractView from './abstract-view';
 
 const createSiteWayPoint = (wayPoint) => {
   const {waypointType, city, price, offers, isFavorite, dueDate} = wayPoint;
@@ -47,27 +47,25 @@ const createSiteWayPoint = (wayPoint) => {
 </div>`;
 };
 
-export default class SiteWayPoint {
-  #element = null;
+export default class SiteWayPoint extends AbstractView {
   #waypoint = null;
 
   constructor(waypoint) {
+    super();
     this.#waypoint = waypoint;
-  }
-
-  get element() {
-    if (!this.#element){
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createSiteWayPoint(this.#waypoint);
   }
 
-  removeElement() {
-    this.#element = null;
+  setEditClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+  }
+
+  #editClickHandler = (event) => {
+    event.preventDefault();
+    this._callback.editClick();
   }
 }
