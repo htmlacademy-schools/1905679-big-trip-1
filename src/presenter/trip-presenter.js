@@ -4,6 +4,8 @@ import SiteEventList from '../view/site-event-list';
 import {render, RenderPosition} from '../utils/render';
 import PointPresenter from './point-presenter';
 import {updateItem} from '../utils/utils';
+import {SortType} from '../utils/utils';
+import {sortTaskByDay, sortTaskByDuration, sortTaskByPrice} from '../utils/sort';
 
 
 export default class TripPresenter {
@@ -16,6 +18,8 @@ export default class TripPresenter {
 
   #tripEvents = [];
   #pointPresenter = new Map();
+  #currentSortType = SortType.SORT_DAY;
+  #sourcedTripPoints = [];
 
   constructor(mainElement) {
     this.#mainElement = mainElement;
@@ -24,6 +28,7 @@ export default class TripPresenter {
 
   init = (tripEvents) => {
     this.#tripEvents = [...tripEvents];
+    this.#sourcedTripPoints = [...tripEvents];
     this.#renderMain();
   }
 
@@ -42,10 +47,39 @@ export default class TripPresenter {
   #handleTaskChange = (updatedPoint) => {
     this.#tripEvents = updateItem(this.#tripEvents, updatedPoint);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
+    this.#sourcedTripPoints = updateItem(this.#sourcedTripPoints, updatedPoint);
   }
 
   #renderSort = () => {
     render(this.#tripEventsElement, this.#sortComponent, RenderPosition.AFTERBEGIN);
+
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
+  }
+
+  #sortTasks = (sortType) => {
+    switch (sortType) {
+      case SortType.SORT_DAY:
+        this.#tripEvents.sort(sortTaskByDay);
+        break;
+      case SortType.SORT_TIME:
+        this.#tripEvents.sort(sortTaskByDuration);
+        break;
+      case SortType.SORT_PRICE:
+        this.#tripEvents.sort(sortTaskByPrice);
+        break;
+      default:
+        this.#tripEvents = [...this.#sourcedTripPoints];
+    }
+    this.#currentSortType = sortType;
+  }
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+    this.#sortTasks(sortType);
+    this.#clearTaskList();
+    this.#renderTripEventsList();
   }
 
   #renderTripEvent = (waypoint) => {
@@ -66,6 +100,7 @@ export default class TripPresenter {
     } else {
       this.#renderSort();
       this.#renderTripEventsListElement();
+      this.#sortTasks(this.#currentSortType);
       this.#renderTripEventsList();
     }
   }
