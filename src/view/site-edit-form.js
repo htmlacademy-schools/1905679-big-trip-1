@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import SmartView from './site-smart-view';
 import {createFormOffersTemplate} from '../utils/utils';
+import flatpickr from 'flatpickr';
+import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 const createSiteEditForm = (waypoint) => {
   const {waypointType, price, city, startDate, endDate, offers, cityDescription, id} = waypoint;
@@ -117,6 +119,9 @@ const createSiteEditForm = (waypoint) => {
 };
 
 export default class EditFormView extends SmartView {
+  #datepickerFrom = null;
+  #datepickerTo = null;
+
   constructor(waypoint) {
     super();
     this._waypoint = waypoint;
@@ -124,6 +129,19 @@ export default class EditFormView extends SmartView {
 
   get template(){
     return createSiteEditForm(this._waypoint);
+  }
+
+  removeElement = () => {
+    super.removeElement();
+
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+    if (this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
+    }
   }
 
 
@@ -174,7 +192,41 @@ export default class EditFormView extends SmartView {
     this._callback.rollupClick();
   }
 
+  #setDatepicker = () => {
+    this.#datepickerFrom = flatpickr(
+      this.element.querySelector('.event__input-start-time'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i' ,
+        defaultDate: this._data.dateFrom,
+        onChange: this.#dateFromChangeHandler
+      },
+    );
+    this.#datepickerTo = flatpickr(
+      this.element.querySelector('.event__input-end-time'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        defaultDate: this._data.dateTo,
+        onChange: this.#dateToChangeHandler
+      },
+    );
+  }
+
+  #dateFromChangeHandler = ([userDate]) => {
+    this.updateData({
+      dateFrom: userDate.toISOString(),
+    });
+  }
+
+  #dateToChangeHandler = ([userDate]) => {
+    this.updateData({
+      dateTo: userDate.toISOString(),
+    });
+  }
+
   setInnerHandlers = () => {
+    this.#setDatepicker();
     this.element.querySelector('.event__type-list').addEventListener('input', this.#changeTypeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#changeCityHandler);
 
@@ -182,6 +234,7 @@ export default class EditFormView extends SmartView {
     if (offers)
     {offers.addEventListener('input', this.#changeOptionsHandler);}
   }
+
 
   reset = (waypoint) => {
     this.updateData(waypoint);
