@@ -1,23 +1,32 @@
-import {render, RenderPosition} from './utils/render';
-import SiteNavigation from './view/site-navigation.js';
-import SiteFilters from './view/site-filters.js';
-import SiteInfo from './view/site-info.js';
-import { generateWaypoint } from './mock/waypoint.js';
-import TripPresenter from './presenter/trip-presenter.js';
+import { generateEvents } from './mock/waypoint';
+import TripPresenter from './presenter/trip-presenter';
+import EventsModel from './model/events-model';
+import FilterModel from './model/filter-model';
+import FilterPresenter from './presenter/filter-presenter';
 
 const count = 5;
-const wayPoint = Array.from({length: count}, generateWaypoint);
 
-const pageMainElement = document.querySelector('.page-body');
+const events = Array.from({ length: count }, generateEvents);
 
-const siteNavigation = document.querySelector('.trip-controls__navigation');
-const siteFilters = document.querySelector('.trip-controls__filters');
+const siteNavigationElement = document.querySelector('.trip-controls__navigation');
 
-render(siteNavigation, new SiteNavigation(),RenderPosition.BEFOREEND);
-render(siteFilters, new SiteFilters(), RenderPosition.BEFOREEND);
+const siteFilterElement = document.querySelector('.trip-controls__filters');
 
-const tripPresenter = new TripPresenter(pageMainElement);
-tripPresenter.init(wayPoint);
-if (wayPoint.length !== 0) {
-  render(siteNavigation, new SiteInfo(wayPoint), RenderPosition.BEFOREBEGIN);
-}
+const tripEvents = document.querySelector('.trip-events');
+
+const eventsModel = new EventsModel();
+eventsModel.events = events;
+
+const filterModel = new FilterModel();
+
+const tripPresenter = new TripPresenter(tripEvents, siteNavigationElement, eventsModel, filterModel);
+const filterPresenter = new FilterPresenter(siteFilterElement, filterModel);
+
+filterPresenter.init();
+
+tripPresenter.init();
+
+document.querySelector('.trip-main__event-add-btn').addEventListener('click', (event) => {
+  event.preventDefault();
+  tripPresenter.createEvent();
+});

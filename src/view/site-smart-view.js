@@ -1,18 +1,14 @@
-import AbstractView from './abstract-view.js';
+import AbstractView from './abstract-view';
 
 export default class SmartView extends AbstractView {
   _data = {};
 
-  updateData = (update, justDataUpdating) => {
+  updateData = (update) => {
     if (!update) {
       return;
     }
 
-    this._data = {...this._data, ...update};
-
-    if (justDataUpdating) {
-      return;
-    }
+    this._data = { ...this._data, ...update };
 
     this.updateElement();
   }
@@ -30,11 +26,6 @@ export default class SmartView extends AbstractView {
   }
 
   restoreHandlers = () => {
-    this.#setInnerHandlers();
-    this.setFormSubmitHandler(this._callback.formSubmit);
-  }
-
-  #setInnerHandlers = () => {
-
+    throw new Error('Abstract method not implemented: restoreHandlers');
   }
 }
