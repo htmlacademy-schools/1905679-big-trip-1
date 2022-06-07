@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import AbstractView from './abstract-view';
+import {createOffersTemplate} from '../utils/utils';
 
 const createSiteWayPoint = (wayPoint) => {
   const {waypointType, city, price, offers, isFavorite, dueDate} = wayPoint;
@@ -27,8 +28,7 @@ const createSiteWayPoint = (wayPoint) => {
   <p class="event__price">
     &euro;&nbsp;<span class="event__price-value">${price}</span>
   </p>
-  <h4 class="visually-hidden">Offers:</h4>
-  <ul class="event__selected-offers">
+  ${createOffersTemplate(offers, waypointType)}
     <li class="event__offer">
       <span class="event__offer-title">${offerName}</span>
       &plus;&euro;&nbsp;
