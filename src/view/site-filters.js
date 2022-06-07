@@ -24,8 +24,24 @@ const createSiteFilters = () => (
 );
 
 export default class SiteFilters extends AbstractView {
+  #currentFilter = null;
+
+  constructor( currentFilterType) {
+    super();
+    this.#currentFilter = currentFilterType;
+  }
 
   get template() {
-    return createSiteFilters();
+    return createSiteFilters( this.#currentFilter);
+  }
+
+  setFilterTypeChangeHandler = (callback) => {
+    this._callback.filterTypeChange = callback;
+    this.element.addEventListener('change', this.#filterTypeChangeHandler);
+  }
+
+  #filterTypeChangeHandler = (event) => {
+    event.preventDefault();
+    this._callback.filterTypeChange(event.target.value);
   }
 }
