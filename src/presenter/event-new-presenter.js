@@ -1,7 +1,7 @@
-import EditPoint from '../view/edit-point-view';
+import EditPoint from '../view/site-edit-form';
 import { nanoid } from 'nanoid';
 import { UserAction, UpdateType } from '../const';
-import { RenderPosition, render, remove } from '../render';
+import { RenderPosition, render, remove } from '../utils/render';
 
 export default class EventNewPresenter {
   #eventListContainer = null;
@@ -40,9 +40,9 @@ export default class EventNewPresenter {
     document.removeEventListener('keydown', this.#onEscKeyDown);
   }
 
-  #onEscKeyDown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
+  #onEscKeyDown = (event) => {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      event.preventDefault();
       this.destroy();
     }
   }

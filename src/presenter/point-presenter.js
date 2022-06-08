@@ -1,109 +1,124 @@
 import SiteWayPoint from '../view/site-waypoint';
-import SiteEditForm from '../view/site-edit-form';
-import {render, RenderPosition, replace, remove} from '../utils/render';
+import EditPoint from '../view/site-edit-form';
+import { UserAction, UpdateType } from '../const';
+import { isDatesEqual } from '../utils/date-manipulation';
+import { RenderPosition, render, replace, remove } from '../utils/render';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
 };
 
-export default class PointPresenter {
-  #waypointsListElement = null;
+export default class EventPresenter {
+  #eventListContainer = null;
   #changeData = null;
   #changeMode = null;
 
-  #waypointItemComponent = null;
-  #editFormComponent = null;
+  #eventComponent = null;
+  #eventEditComponent = null;
 
-  #waypoint = null;
+  #tripEvent = null;
   #mode = Mode.DEFAULT;
 
-  constructor(waypointsListElement, changeData, changeMode) {
-    this.#waypointsListElement = waypointsListElement;
+  constructor(eventListContainer, changeData, changeMode) {
+    this.#eventListContainer = eventListContainer;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
   }
 
-  init = (waypoint) => {
-    this.#waypoint = waypoint;
+  init = (tripEvent) => {
+    this.#tripEvent = tripEvent;
 
-    const prevWaypointComponent = this.#waypointItemComponent;
-    const prevEditComponent = this.#editFormComponent;
+    const prevEventComponent = this.#eventComponent;
+    const prevEventEditComponent = this.#eventEditComponent;
 
-    this.#waypointItemComponent = new SiteWayPoint(waypoint);
-    this.#editFormComponent = new SiteEditForm(waypoint);
+    this.#eventComponent = new SiteWayPoint(this.#tripEvent);
+    this.#eventEditComponent = new EditPoint(this.#tripEvent);
 
-    this.#waypointItemComponent.setEditClickHandler(this.#handleEditClick);
-    this.#waypointItemComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-    this.#editFormComponent.restoreHandlers = () => {
-      this.#editFormComponent.setFormSubmitHandler(this.#handleFormSubmit);
-      this.#editFormComponent.setRollupClickHandler(this.#handleRollupClick);
-      this.#editFormComponent.setInnerHandlers();
-    };
-    this.#editFormComponent.restoreHandlers();
+    this.#eventComponent.setClickRollupHandler(this.#replaceEventToEditPoint);
+    this.#eventEditComponent.setClickRollupHandler(this.#replaceEditPointToEvent);
+    this.#eventEditComponent.setFormSubmitHadler(this.#handleFormSubmit);
+    this.#eventComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#eventEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
 
-    if (prevWaypointComponent === null || prevEditComponent === null){
-      render(this.#waypointsListElement, this.#waypointItemComponent, RenderPosition.BEFOREEND);
+    if (prevEventComponent === null || prevEventEditComponent === null) {
+      render(this.#eventListContainer, this.#eventComponent, RenderPosition.BEFOREEND);
       return;
     }
-    if (this.#mode === Mode.DEFAULT){
-      replace(this.#waypointItemComponent, prevWaypointComponent);
+
+    if (this.#mode === Mode.DEFAULT) {
+      replace(this.#eventComponent, prevEventComponent);
     }
+
     if (this.#mode === Mode.EDITING) {
-      replace(this.#editFormComponent, prevEditComponent);
+      replace(this.#eventEditComponent, prevEventEditComponent);
     }
 
-    remove(prevWaypointComponent);
-    remove(prevEditComponent);
-  }
-
-  destroy = () => {
-    remove(this.#waypointItemComponent);
-    remove(this.#editFormComponent);
+    remove(prevEventComponent);
+    remove(prevEventEditComponent);
   }
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#replaceFormToItem();
+      this.#replaceEditPointToEvent();
     }
   }
 
-  #replaceItemToForm = () => {
-    replace(this.#editFormComponent, this.#waypointItemComponent);
-    document.addEventListener('keydown', this.#escKeyDownHandler);
-    this.#changeMode();
-    this.#mode = Mode.EDITING;
+  destroy = () => {
+    remove(this.#eventComponent);
+    remove(this.#eventEditComponent);
   }
 
-  #replaceFormToItem = () => {
-    replace(this.#waypointItemComponent, this.#editFormComponent);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  #onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      this.#replaceEditPointToEvent();
+      document.removeEventListener('keydown', this.#onEscKeyDown);
+    }
+  }
+
+  #replaceEventToEditPoint = () => {
+    replace(this.#eventEditComponent, this.#eventComponent);
+    this.#changeMode();
+    this.#mode = Mode.EDITING;
+    document.addEventListener('keydown', this.#onEscKeyDown);
+  }
+
+  #replaceEditPointToEvent = () => {
+    this.#eventEditComponent.reset(this.#tripEvent);
+    replace(this.#eventComponent, this.#eventEditComponent);
+    document.removeEventListener('keydown', this.#onEscKeyDown);
     this.#mode = Mode.DEFAULT;
   }
 
-  #escKeyDownHandler = (event) => {
-    if (event.key === 'Escape' || event.key === 'Esc') {
-      event.preventDefault();
-      this.#editFormComponent.reset(this.#waypoint);
-      this.#replaceFormToItem();
-    }
-  };
-
-  #handleEditClick = () => {
-    this.#replaceItemToForm();
-  };
-
-  #handleRollupClick = () => {
-    this.#editFormComponent.reset(this.#waypoint);
-    this.#replaceFormToItem();
-  };
-
-  #handleFormSubmit = (waypoint) => {
-    this.#changeData(waypoint);
-    this.#replaceFormToItem();
-  };
-
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#waypoint, isFavorite: !this.#waypoint.isFavorite});
+    this.#changeData({ ...this.#tripEvent, favorite: !this.#tripEvent.favorite });
+    this.#changeData(
+      UserAction.UPDATE_EVENT,
+      UpdateType.PATCH,
+      { ...this.#tripEvent, favorite: !this.#tripEvent.favorite },
+    );
+  }
+
+  #handleFormSubmit = (update) => {
+    const isMinorUpdate =
+      !isDatesEqual(this.#tripEvent.date.dataBeginEvent, update.date.dataBeginEvent) ||
+      !isDatesEqual(this.#tripEvent.date.dataEndEvent, update.date.dataEndEvent);
+
+    this.#changeData(
+      UserAction.UPDATE_EVENT,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      update,
+    );
+    this.#replaceEditPointToEvent();
+  }
+
+  #handleDeleteClick = (event) => {
+    this.#changeData(
+      UserAction.DELETE_EVENT,
+      UpdateType.MINOR,
+      event,
+    );
   }
 }
+
