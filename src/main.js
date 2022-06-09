@@ -8,6 +8,12 @@ import { MenuItem } from './const';
 import { countingStats, clearStats } from './utils/stat';
 import StatView from './view/site-stat-view';
 import { RenderPosition, render, remove } from './utils/render';
+import Api from './api';
+
+const AUTHORIZATION = 'Basic Lv1Bn3hbq3Rj7hj';
+const END_POINT = 'https://16.ecmascript.pages.academy/big-trip/';
+
+const eventModel = new EventsModel(new Api(END_POINT, AUTHORIZATION));
 
 const count = 5;
 
